@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.bgC {
+    background: #F1F2F4;
+}
+
+.bg {
+    background-color: #fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(51, 70%, 96%, .6)), to(hsla(51, 70%, 96%, .6))), url(../js/f81990d….png);
+    background-image: linear-gradient(hsla(51, 70%, 96%, .6), hsla(51, 70%, 96%, .6)), url(/images/bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.addC {
+    /* visibility: hidden; */
+    opacity: 0;
+    z-index: 20;
+    transition: .4s;
+}
+
+.btnC {
+    /* visibility: hidden; */
+    opacity: 0;
+    z-index: 20;
+    transition: .4s;
+}
+
+.tag{
+    opacity: 1;
+    transition: .4s;
+}
+
+.card3:hover {
+    box-shadow: inset 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
+    transition: .4s;
+    .addC {
+        opacity: 1;
+    }
+
+    .btnC {
+        opacity: 1;
+    }
+    .tag{
+        opacity: 0;
+    }
+}
+
+.swiper-button-prev{
+   background-color: #ffffffab;
+}
+.swiper-button-next{
+   background-color: #ffffffab;
+}
