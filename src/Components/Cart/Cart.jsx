@@ -1,7 +1,48 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 const Cart = () => {
+    const [cartData, setCartData] = useState([]);
+
+    const url = ('http://localhost:5000/selects')
+    useEffect(() => {
+        fetch(url)
+            .then(res => res.json())
+            .then(data => setCartData(data))
+    }, [])
+
+    const handleDelete = (item) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`http://localhost:5000/selects/${item._id}`)
+                    .then(data => {
+                        if (data?.data?.deletedCount > 0) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                        }
+                        const url = ('http://localhost:5000/selects')
+                        fetch(url)
+                            .then(res => res.json())
+                            .then(data => setCartData(data))
+                    })
+            }
+        })
+    }
+
     return (
         <div>
             <div>
@@ -14,7 +55,7 @@ const Cart = () => {
                             <label className="cursor-pointer label">
                                 <input type="checkbox" className="checkbox checkbox-info" />
                             </label>
-                            <h1 className="font-medium">Select All (4 Items)</h1>
+                            <h1 className="font-medium">Select All ({cartData?.length} Items)</h1>
                         </div>
                         <div className="flex items-center gap-3">
                             <h1 className="font-medium">Your Total:</h1>
@@ -27,72 +68,41 @@ const Cart = () => {
                             <table className="table">
                                 <tbody>
                                     {/* row 1 */}
-                                    <tr className="border-b border-[#d8d9dd]">
-                                        <th>
-                                            <label className="cursor-pointer label">
-                                                <input type="checkbox" className="checkbox checkbox-info" />
-                                            </label>
-                                        </th>
-                                        <td>
-                                            <div className="card card-side rounded-none gap-3">
-                                                <figure>
-                                                    <img
-                                                        className="w-28 h-40"
-                                                        src="/images/Finance_Banking.jpg"
-                                                        alt="Movie" />
-                                                </figure>
-                                                <div>
-                                                    <h2 className="text-lg w-72"> ফিল্যান্স, ব্যাংকিং ও বিমা - দ্বিতীয় পত্র ( ব্যাংকিং ও বিমা )</h2>
-                                                    <h2 className="text-sm mt-2">মুহাম্মদ আসলাম খালেদ</h2>
-                                                    <Link to="/delete">
-                                                        <img className="mt-4 w-6 h-7" src="/icon/icon_trash.png" alt="" />
-                                                    </Link>
-                                                    <h1 className="text-base text-red-500 mt-2">Only 16 copies available</h1>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="join items-center">
-                                                <button className="px-4 py-1 bg-base-300 text-2xl">-</button>
-                                                <h1 className="join-item bg-white px-5 py-2 text-base">22</h1>
-                                                <button className="px-5 py-1 bg-base-300 text-2xl">+</button>
-                                            </div>
-                                        </td>
-                                        <td className="text-xl font-medium">920 Tk.</td>
-                                    </tr>
-                                    <tr className="border-b border-[#d8d9dd]">
-                                        <th>
-                                            <label className="cursor-pointer label">
-                                                <input type="checkbox" className="checkbox checkbox-info" />
-                                            </label>
-                                        </th>
-                                        <td>
-                                            <div className="card card-side rounded-none gap-3">
-                                                <figure>
-                                                    <img
-                                                        className="w-28 h-40"
-                                                        src="/images/Finance_Banking.jpg"
-                                                        alt="Movie" />
-                                                </figure>
-                                                <div>
-                                                    <h2 className="text-lg w-72"> ফিল্যান্স, ব্যাংকিং ও বিমা - দ্বিতীয় পত্র ( ব্যাংকিং ও বিমা )</h2>
-                                                    <h2 className="text-sm mt-2">মুহাম্মদ আসলাম খালেদ</h2>
-                                                    <Link to="/delete">
-                                                        <img className="mt-4 w-6 h-7" src="/icon/icon_trash.png" alt="" />
-                                                    </Link>
-                                                    <h1 className="text-base text-red-500 mt-2">Only 16 copies available</h1>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="join items-center">
-                                                <button className="px-4 py-1 bg-base-300 text-2xl">-</button>
-                                                <h1 className="join-item bg-white px-5 py-2 text-base">22</h1>
-                                                <button className="px-5 py-1 bg-base-300 text-2xl">+</button>
-                                            </div>
-                                        </td>
-                                        <td className="text-xl font-medium">920 Tk.</td>
-                                    </tr>
+                                    {
+                                        cartData?.map(d =>
+                                            <tr key={d?._id} className="border-b border-[#d8d9dd]">
+                                                <th>
+                                                    <label className="cursor-pointer label">
+                                                        <input type="checkbox" className="checkbox checkbox-info" />
+                                                    </label>
+                                                </th>
+                                                <td>
+                                                    <div className="card card-side rounded-none gap-3">
+                                                        <figure>
+                                                            <img
+                                                                className="w-28 h-40"
+                                                                src={d?.picture}
+                                                                alt="Movie" />
+                                                        </figure>
+                                                        <div>
+                                                            <h2 className="text-lg w-72">{d?.name}</h2>
+                                                            <h2 className="text-sm mt-2">{d?.by}</h2>
+                                                            <img onClick={() => handleDelete(d)} className="mt-4 w-6 h-7" src="/icon/icon_trash.png" alt="" />
+                                                            <h1 className="text-base text-red-500 mt-2">Only {d?.stock} copies available</h1>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="join items-center">
+                                                        <button className="px-4 py-1 bg-base-300 text-2xl">-</button>
+                                                        <h1 className="join-item bg-white px-5 py-2 text-base">22</h1>
+                                                        <button className="px-5 py-1 bg-base-300 text-2xl">+</button>
+                                                    </div>
+                                                </td>
+                                                <td className="text-xl font-medium">{d?.price} Tk.</td>
+                                            </tr>
+                                        )
+                                    }
                                 </tbody>
                             </table>
                         </div>

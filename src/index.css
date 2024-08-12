@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 .bgC {
     background: #F1F2F4;
 }
@@ -29,7 +30,7 @@
     transition: .4s;
 }
 
-.tag{
+.tag {
     opacity: 1;
     transition: .4s;
 }
@@ -37,6 +38,7 @@
 .card3:hover {
     box-shadow: inset 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
     transition: .4s;
+
     .addC {
         opacity: 1;
     }
@@ -44,14 +46,17 @@
     .btnC {
         opacity: 1;
     }
-    .tag{
+
+    .tag {
         opacity: 0;
     }
 }
 
-.swiper-button-prev{
-   background-color: #ffffffab;
+.swiper-button-prev {
+    background-color: #ffffffab;
 }
-.swiper-button-next{
-   background-color: #ffffffab;
+
+.swiper-button-next {
+    background-color: #ffffffab;
+    right: -60px;
 }

@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const Navber = () => {
 
     const [search, setSearch] = useState(1);
     const [tabs, setTAbs] = useState(1);
+    const [cartData, setCartData] = useState([]);
+
+    const url = ('http://localhost:5000/selects')
+    useEffect(() => {
+        fetch(url)
+            .then(res => res.json())
+            .then(data => setCartData(data))
+    }, [cartData])
+
 
     const handleSearch = (e) => {
         setSearch(e);
@@ -40,7 +49,7 @@ const Navber = () => {
                             </svg>
                         </label>
                     </div>
-                    <div className="flex-none items-center gap-10">
+                    <div className="flex-none items-center gap-6">
 
 
                         <div className="flex items-center gap-4">
@@ -59,28 +68,9 @@ const Navber = () => {
                         </div>
 
                         <div className="dropdown dropdown-end">
-                            {/* <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-              </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
-            </ul> */}
-
                             <NavLink to="/addCart">
-                                <div className="tooltip tooltip-bottom" data-tip="Cart">
+                                <div className="relative tooltip tooltip-bottom me-10" data-tip="Cart">
+                                    <div className="absolute -top-3 badge badge-secondary">+{cartData?.length}</div>
                                     <img src="/icon/cartv2.svg" alt="" />
                                 </div>
                             </NavLink>
