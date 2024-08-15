@@ -6,6 +6,14 @@ import Swal from "sweetalert2";
 
 const Cart = () => {
     const [cartData, setCartData] = useState([]);
+    const [quantity, setQuantity] = useState(1);
+    const [subTotal, setSubTotal] = useState(3100);
+    const [total, setTotal] = useState(3350);
+    const [fee, setFee] = useState(140);
+
+
+
+    // data fetching //
 
     const url = ('http://localhost:5000/selects')
     useEffect(() => {
@@ -13,6 +21,9 @@ const Cart = () => {
             .then(res => res.json())
             .then(data => setCartData(data))
     }, [])
+
+
+    // delete cart item //
 
     const handleDelete = (item) => {
         Swal.fire({
@@ -43,6 +54,46 @@ const Cart = () => {
         })
     }
 
+
+    // pricing //
+
+
+    // Handler to increase quantity
+    const increaseQuantity = (id) => {
+        setQuantity(prevQuantity => prevQuantity + 1);
+        console.log(id)
+    };
+
+    // Handler to decrease quantity
+    const decreaseQuantity = (id) => {
+        setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+        console.log(id)
+    };
+
+
+    // Handler payment //
+
+    const handlePayment = () => {
+
+        axios.post("http://localhost:5000/create-payment", {
+            amount: 500,
+            currency: "USD"
+        })
+            .then((res) => {
+                console.log(res)
+                const redirectUrl = res.data.paymentUrl;
+                if(redirectUrl){
+                    window.location.replace(redirectUrl);
+                }
+            })
+
+
+    }
+
+
+
+
+
     return (
         <div>
             <div>
@@ -59,8 +110,8 @@ const Cart = () => {
                         </div>
                         <div className="flex items-center gap-3">
                             <h1 className="font-medium">Your Total:</h1>
-                            <p className="text-red-500 line-through">3,400TK.</p>
-                            <p className="text-green-500 font-medium">3,177TK.</p>
+                            <p className="text-red-500 line-through">3,400 TK.</p>
+                            <p className="text-green-500 font-medium">{subTotal} TK.</p>
                         </div>
                     </div>
                     <div className="bg-[#FF981F0D] mt-6 border-2">
@@ -94,9 +145,9 @@ const Cart = () => {
                                                 </td>
                                                 <td>
                                                     <div className="join items-center">
-                                                        <button className="px-4 py-1 bg-base-300 text-2xl">-</button>
-                                                        <h1 className="join-item bg-white px-5 py-2 text-base">22</h1>
-                                                        <button className="px-5 py-1 bg-base-300 text-2xl">+</button>
+                                                        <button onClick={() => decreaseQuantity(d._id)} className="px-4 py-1 bg-base-300 text-2xl">-</button>
+                                                        <h1 className="join-item bg-white px-5 py-2 text-base">{quantity}</h1>
+                                                        <button onClick={() => increaseQuantity(d._id)} className="px-5 py-1 bg-base-300 text-2xl">+</button>
                                                     </div>
                                                 </td>
                                                 <td className="text-xl font-medium">{d?.price} Tk.</td>
@@ -119,12 +170,10 @@ const Cart = () => {
                                     Order as a Gift
                                 </button>
                             </Link>
-                            <Link to="/checkOut">
-                                <button className="bg-blue-500 border border-blue-600 text-white px-8 py-3 flex items-center text-lg gap-3 font-medium">
-                                    Check Out
-                                    <img className="w-6" src="/icon/icons8-right-arrow-60.png" alt="" />
-                                </button>
-                            </Link>
+                            <button onClick={handlePayment} className="bg-blue-500 border border-blue-600 text-white px-8 py-3 flex items-center text-lg gap-3 font-medium">
+                                Check Out
+                                <img className="w-6" src="/icon/icons8-right-arrow-60.png" alt="" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -135,15 +184,15 @@ const Cart = () => {
                         </div>
                         <div className="mt-4 flex items-center justify-between border-b-2 border-dashed pb-2">
                             <p className="text-lg">Subtotal</p>
-                            <p className="text-lg">3177Tk.</p>
+                            <p className="text-lg">{subTotal} Tk.</p>
                         </div>
                         <div className="mt-4 flex items-center justify-between border-b-2 border-dashed pb-2">
                             <p className="text-lg">Shipping</p>
-                            <p className="text-lg">140Tk.</p>
+                            <p className="text-lg">{fee} Tk.</p>
                         </div>
                         <div className="mt-4 flex items-center justify-between border-b-2 border-dashed pb-2">
                             <p className="text-lg">Total</p>
-                            <p className="text-lg">3317 Tk.</p>
+                            <p className="text-lg">{total} Tk.</p>
                         </div>
                         <div className="mt-4 flex items-center justify-between border-b-2 border-dashed pb-2">
                             <h4 className="text-xl font-medium">Payable Total</h4>

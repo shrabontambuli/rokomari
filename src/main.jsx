@@ -10,27 +10,42 @@ import HomePage from './Components/Home/HomePage/HomePage.jsx';
 import Error from './LayOut/Error/Error.jsx';
 import View_Details from './Components/View_Details/View_Details.jsx';
 import Cart from './Components/Cart/Cart.jsx';
+import Success from './Components/Success/Success.jsx';
+import Fail from './Components/Fail/Fail.jsx';
+import Cancel from './Components/Cancel/Cancel.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <Error/>,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
-        element: <HomePage/>,
+        element: <HomePage />,
       },
       {
         path: "/details/:_id",
-        element: <View_Details/>,
+        element: <View_Details />,
         loader: ({ params }) => fetch(`http://localhost:5000/products/${params._id}`)
       },
       {
         path: "/addCart",
-        element: <Cart/>,
+        element: <Cart />,
       },
     ],
+  },
+  {
+    path: "/success",
+    element: <Success />,
+  },
+  {
+    path: "/fail",
+    element: <Fail/>,
+  },
+  {
+    path: "/cancel",
+    element: <Cancel/>,
   },
 ]);
 

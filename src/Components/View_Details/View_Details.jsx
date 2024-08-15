@@ -129,7 +129,7 @@ const View_Details = () => {
                                     </div>
                                 </dialog>
 
-                                <button onClick={() => (handleSelect(data))} className="bg-blue-500 text-white px-8 py-4 flex items-center gap-3">
+                                <button onClick={() => handleSelect(data)} className="bg-blue-500 text-white px-8 py-4 flex items-center gap-3">
                                     <img src="/icon/cart-mini.svg" alt="" />
                                     Add To Cart</button>
                             </div>
