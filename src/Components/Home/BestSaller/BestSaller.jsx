@@ -7,15 +7,16 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Navigation } from 'swiper/modules';
+import axios from 'axios';
 
 const BestSaller = () => {
     const [bestData, setBestData] = useState([]);
 
-    const url = ('http://localhost:5000/products')
     useEffect(() => {
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setBestData(data))
+        axios.get('http://localhost:5000/products')
+            .then(res => {
+                setBestData(res.data);
+            });
     }, [])
 
     return (
@@ -35,16 +36,16 @@ const BestSaller = () => {
                     {
                         bestData?.map(d =>
                             <SwiperSlide key={d._id}>
-                                        <Link  to={`/details/${d._id}`}>
-                                            <div className="card card1 card-body p-0 bg-white h-52 border rounded-sm shadow">
-                                                <figure className="w-48 h-40 bg-[#F5F5F5]">
-                                                    <img className="w-full h-full" src={d?.picture} alt="Album" />
-                                                </figure>
-                                                <div>
-                                                    <h2 className="card-title text-center justify-center text-base pb-1 font-normal mt-1">{d?.category}</h2>
-                                                </div>
-                                            </div>
-                                        </Link>
+                                <Link to={`/details/${d._id}`}>
+                                    <div className="card card1 card-body p-0 bg-white h-52 border rounded-sm shadow">
+                                        <figure className="w-48 h-40 bg-[#F5F5F5]">
+                                            <img className="w-full h-full" src={d?.picture} alt="Album" />
+                                        </figure>
+                                        <div>
+                                            <h2 className="card-title text-center justify-center text-base pb-1 font-normal mt-1">{d?.category}</h2>
+                                        </div>
+                                    </div>
+                                </Link>
                             </SwiperSlide>
                         )
                     }

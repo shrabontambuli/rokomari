@@ -10,9 +10,9 @@ import HomePage from './Components/Home/HomePage/HomePage.jsx';
 import Error from './LayOut/Error/Error.jsx';
 import View_Details from './Components/View_Details/View_Details.jsx';
 import Cart from './Components/Cart/Cart.jsx';
-import Success from './Components/Success/Success.jsx';
-import Fail from './Components/Fail/Fail.jsx';
-import Cancel from './Components/Cancel/Cancel.jsx';
+import Success from './Components/Payment/Success/Success.jsx';
+import Fail from './Components/Payment/Fail/Fail.jsx';
+import Cancel from './Components/Payment/Cancel/Cancel.jsx';
 import DashBoard from './DashBoard/DashBoard/DashBoard.jsx';
 import AddProduct from './DashBoard/AddProduct/AddProduct.jsx';
 

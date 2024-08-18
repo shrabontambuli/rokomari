@@ -15,11 +15,11 @@ const Cart = () => {
 
     // data fetching //
 
-    const url = ('http://localhost:5000/selects')
     useEffect(() => {
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setCartData(data))
+        axios.get('http://localhost:5000/selects')
+            .then(res => {
+                setCartData(res.data)
+            });
     }, [])
 
 
@@ -45,10 +45,10 @@ const Cart = () => {
                                 'success'
                             )
                         }
-                        const url = ('http://localhost:5000/selects')
-                        fetch(url)
-                            .then(res => res.json())
-                            .then(data => setCartData(data))
+                        axios.get('http://localhost:5000/selects')
+                            .then(res => {
+                                setCartData(res.data)
+                            });
                     })
             }
         })
@@ -82,7 +82,7 @@ const Cart = () => {
             .then((res) => {
                 console.log(res)
                 const redirectUrl = res.data.paymentUrl;
-                if(redirectUrl){
+                if (redirectUrl) {
                     window.location.replace(redirectUrl);
                 }
             })
