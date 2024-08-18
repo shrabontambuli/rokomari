@@ -1,4 +1,4 @@
-import Card_3 from "../../Card/Card/Card_3/Card_3";
+import Card_3 from "../../Card/Card_3/Card_3";
 
 const SoldProduct = () => {
     return (

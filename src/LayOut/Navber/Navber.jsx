@@ -59,12 +59,21 @@ const Navber = () => {
                                     Sign in
                                 </button>
                             </div>
-                            <div className="border-e-2 w-44">
-                                <a className="flex items-center gap-2 hover:text-blue-500" rel="stylesheet" href="" >
+                            <div className="dropdown dropdown-hover">
+                                <div tabIndex={0} role="button" className="btn m-1">
+                                    <a className="flex items-center gap-2 hover:text-blue-500" rel="stylesheet" href="" >
+                                        <img src="/icon/become-seller-.svg" alt="" />
+                                        Become A Saller
+                                    </a>
+                                </div>
+                                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                    <li><Link to='/dashboard'>Dashboard</Link></li>
+                                </ul>
+                            </div>
+                            {/* <a className="flex items-center gap-2 hover:text-blue-500" rel="stylesheet" href="" >
                                     <img src="/icon/become-seller-.svg" alt="" />
                                     Become A Saller
-                                </a>
-                            </div>
+                                </a> */}
                         </div>
 
                         <div className="dropdown dropdown-end">

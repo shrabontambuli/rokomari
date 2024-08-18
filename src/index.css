@@ -52,6 +52,14 @@
     }
 }
 
+.dashC {
+    box-shadow: inset 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.dashC2 {
+    box-shadow: inset 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
 .swiper-button-prev {
     background-color: #ffffffab;
 }
@@ -60,3 +68,26 @@
     background-color: #ffffffab;
     right: -60px;
 }
+
+
+.dash {
+    box-sizing: border-box;
+    background: radial-gradient(99.73% 98.31% at 51.96% 40.13%, rgba(96, 103, 242, 0.8) 0.01%, rgba(52, 52, 52, 0.8) 94.06%);
+    box-shadow: 10px 28px 36px 17px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(25.5px);
+}
+
+.drawer-side {
+    background: linear-gradient(177.65deg, #5321CA -2.19%, rgba(27, 0, 92, 0.53) 110.15%);
+    box-shadow: 0px 21px 21px 1px rgba(45, 29, 71, 0.53);
+}
+
+.hoverLink:hover {
+    transition: .4s;
+    background: #6367B4;
+    border-radius: 7px;
+    order: 1;
+    flex-grow: 0;
+}
+
+

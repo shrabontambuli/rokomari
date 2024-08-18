@@ -13,6 +13,8 @@ import Cart from './Components/Cart/Cart.jsx';
 import Success from './Components/Success/Success.jsx';
 import Fail from './Components/Fail/Fail.jsx';
 import Cancel from './Components/Cancel/Cancel.jsx';
+import DashBoard from './DashBoard/DashBoard/DashBoard.jsx';
+import AddProduct from './DashBoard/AddProduct/AddProduct.jsx';
 
 const router = createBrowserRouter([
   {
@@ -41,11 +43,21 @@ const router = createBrowserRouter([
   },
   {
     path: "/fail",
-    element: <Fail/>,
+    element: <Fail />,
   },
   {
     path: "/cancel",
-    element: <Cancel/>,
+    element: <Cancel />,
+  },
+  {
+    path: "/dashboard",
+    element: <DashBoard />,
+    children: [
+      {
+        path: "addProduct",
+        element: <AddProduct/>,
+      },
+    ]
   },
 ]);
 

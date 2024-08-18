@@ -1,4 +1,4 @@
-import Card_2 from "../../Card/Card/Card_2/Card_2";
+import Card_2 from "../../Card/Card_2/Card_2";
 
 
 
