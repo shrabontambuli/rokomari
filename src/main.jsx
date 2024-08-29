@@ -19,6 +19,7 @@ import DashBoardHome from './DashBoard/DashBoardHome/DashBoardHome.jsx';
 import LogIn from './LayOut/LogIn/LogIn.jsx';
 import SignUp from './LayOut/SignUp/SignUp.jsx';
 import AuthProvider from './providers/AuthProvider.jsx';
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/details/:_id",
-        element: <View_Details />,
+        element: <PrivateRoute><View_Details /></PrivateRoute>,
         loader: ({ params }) => fetch(`http://localhost:5000/products/${params._id}`)
       },
       {
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashBoard />,
+    element: <PrivateRoute><DashBoard /></PrivateRoute>,
     children: [
       {
         path: "/dashboard",
