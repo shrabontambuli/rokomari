@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Navber = () => {
-
+    const { user, logOut } = useContext(AuthContext);
     const [search, setSearch] = useState(1);
     const [tabs, setTAbs] = useState(1);
     const [cartData, setCartData] = useState([]);
+    console.log(user)
 
     const url = ('http://localhost:5000/selects')
     useEffect(() => {
@@ -14,6 +16,11 @@ const Navber = () => {
             .then(data => setCartData(data))
     }, [cartData])
 
+    const handleLogOut = () => {
+        logOut()
+            .then()
+            .catch(error => (error))
+    }
 
     const handleSearch = (e) => {
         setSearch(e);
@@ -27,7 +34,7 @@ const Navber = () => {
                 <div className="navbar bg-white fixed max-w-screen-2xl z-10 py-4">
                     <div className="flex-1 items-center gap-10">
                         <a>
-                            <img className="w-32 h-11"
+                            <img className="w-32 h-11 ms-2"
                                 alt="Tailwind CSS Navbar component"
                                 src="/icon/rokomari_logo.png" />
                         </a>
@@ -51,20 +58,37 @@ const Navber = () => {
                     </div>
                     <div className="flex-none items-center gap-6">
 
-
                         <div className="flex items-center gap-4">
-                            <div>
-                                <button className="btn shadow-none hover:bg-blue-500 hover:text-white text-lg">
-                                    <img src="/icon/user.svg" alt="" />
-                                    Sign in
-                                </button>
-                            </div>
+
+                            {
+                                user ? <button onClick={handleLogOut} className="btn shadow-none hover:bg-blue-500 hover:text-white text-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                </button> :
+                                    <Link to="/signIn">
+                                        <button className="btn shadow-none hover:bg-blue-500 hover:text-white text-lg">
+                                            <img src="/icon/user.svg" alt="" />
+                                            Sign in
+                                        </button>
+                                    </Link>
+                            }
+
+
                             <div className="dropdown dropdown-hover">
                                 <div tabIndex={0} role="button" className="btn m-1">
-                                    <a className="flex items-center gap-2 hover:text-blue-500" rel="stylesheet" href="" >
-                                        <img src="/icon/become-seller-.svg" alt="" />
-                                        Become A Saller
-                                    </a>
+                                    {
+                                        user ?
+                                            <div className="w-10 rounded-full">
+                                                <img
+                                                    alt="img"
+                                                    src={user?.photoURL} />
+                                            </div> :
+                                            <a className="flex items-center gap-2 hover:text-blue-500" rel="stylesheet" href="" >
+                                                <img src="/icon/become-seller-.svg" alt="" />
+                                                Become A Saller
+                                            </a>
+                                    }
                                 </div>
                                 <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                     <li><Link to='/dashboard'>Dashboard</Link></li>

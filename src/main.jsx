@@ -10,11 +10,15 @@ import HomePage from './Components/Home/HomePage/HomePage.jsx';
 import Error from './LayOut/Error/Error.jsx';
 import View_Details from './Components/View_Details/View_Details.jsx';
 import Cart from './Components/Cart/Cart.jsx';
-import Success from './Components/Payment/Success/Success.jsx';
-import Fail from './Components/Payment/Fail/Fail.jsx';
-import Cancel from './Components/Payment/Cancel/Cancel.jsx';
+import Success from './Payment/Success/Success.jsx';
+import Fail from './Payment/Fail/Fail.jsx';
+import Cancel from './Payment/Cancel/Cancel.jsx';
 import DashBoard from './DashBoard/DashBoard/DashBoard.jsx';
 import AddProduct from './DashBoard/AddProduct/AddProduct.jsx';
+import DashBoardHome from './DashBoard/DashBoardHome/DashBoardHome.jsx';
+import LogIn from './LayOut/LogIn/LogIn.jsx';
+import SignUp from './LayOut/SignUp/SignUp.jsx';
+import AuthProvider from './providers/AuthProvider.jsx';
 
 const router = createBrowserRouter([
   {
@@ -50,21 +54,38 @@ const router = createBrowserRouter([
     element: <Cancel />,
   },
   {
+    path: "/signIn",
+    element: <LogIn />,
+  },
+  {
+    path: "/signUp",
+    element: <SignUp />,
+  },
+  {
     path: "/dashboard",
     element: <DashBoard />,
     children: [
       {
-        path: "addProduct",
-        element: <AddProduct/>,
+        path: "/dashboard",
+        element: <DashBoardHome />,
       },
+      {
+        path: "addProduct",
+        element: <AddProduct />,
+      },
+
     ]
   },
 ]);
 
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <AuthProvider>
+      <RouterProvider router={router}>
+        <App />
+      </RouterProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )

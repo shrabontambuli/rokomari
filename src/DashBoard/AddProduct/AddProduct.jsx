@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-
-import { useContext } from "react";
 import { Form } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from 'axios';
 
 const AddProduct = () => {
+
     const [productImg, setProductImg] = useState();
-    const [productName, setProductName] = useState("Product name");
+    const [productName, setProductName] = useState("Book name");
     const { register, handleSubmit, reset } = useForm();
 
     const proImg = (e) => {
@@ -22,11 +21,8 @@ const AddProduct = () => {
         console.log(pName);
     }
 
-
     const onSubmit = data => {
-        // console.log(data);
         const addProduct = { name: data.name, by: data.by, category: data.category, price: data.price, stock: data.stock, page: data.page, print: data.print, edition: data.edition, publication: data.publication, product: data.product, picture: data.picture, sale_category: data.sale_category }
-        // console.log(addProduct);
 
         axios.post('http://localhost:5000/products', addProduct)
             .then(data => {
@@ -40,34 +36,13 @@ const AddProduct = () => {
                     })
                 }
             })
-
-        // fetch('https://music-academy-eta.vercel.app/classes', {
-        //     method: 'POST',
-        //     headers: {
-        //         'content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify(saveClasses)
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         if (data.insertedId) {
-        //             reset();
-        //             Swal.fire({
-        //                 position: 'center',
-        //                 icon: 'success',
-        //                 title: 'New Class added and pending for admin approval ',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-        //             })
-        //         }
-        //     })
     }
     return (
         <div className="w-full">
             <div className="hero min-h-screen">
-                <div className="w-11/12 px-16">
+                <div className="w-full">
                     <div className="font-serif font-semibold text-2xl px-8">
-                        <h1 className="text-3xl font-serif font-bold text-white"> Add To New Product : ---</h1>
+                        <h1 className="text-3xl font-serif font-bold text-white"> Add To New Book : ---</h1>
                     </div>
                     <div className='flex justify-center items-start gap-10 mt-6'>
                         <Form onSubmit={handleSubmit(onSubmit)} className="card-body">
@@ -88,9 +63,9 @@ const AddProduct = () => {
                             <div className='flex justify-between items-center gap-8'>
                                 <div className="form-control w-full">
                                     <label className="label">
-                                        <span className="label-text text-white">By</span>
+                                        <span className="label-text text-white">By / Brand Name</span>
                                     </label>
-                                    <input type="text" {...register("by", { required: true })} placeholder="by"
+                                    <input type="text" {...register("by", { required: true })} placeholder="by / brand name"
                                         className="input input-bordered dashC2" />
                                     {/* defaultValue={user?.displayName} */}
                                 </div>
@@ -179,7 +154,7 @@ const AddProduct = () => {
                                 </div>
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-outline bg-[#4d19bd] hover:bg-[#4d19bd]  text-white w-full">Add New Product</button>
+                                <button className="btn btn-outline bg-[#4d19bd] hover:bg-[#4d19bd]  text-white w-full">Add New Book</button>
                             </div>
                         </Form>
                         <div>
@@ -192,7 +167,6 @@ const AddProduct = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );
