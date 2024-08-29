@@ -7,7 +7,6 @@ const Navber = () => {
     const [search, setSearch] = useState(1);
     const [tabs, setTAbs] = useState(1);
     const [cartData, setCartData] = useState([]);
-    console.log(user)
 
     const url = ('http://localhost:5000/selects')
     useEffect(() => {

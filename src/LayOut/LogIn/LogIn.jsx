@@ -26,7 +26,6 @@ const LogIn = () => {
         console.log(data);
     }
 
-
     const handleGoogle = () => {
         googleSignIn()
             .then(result => {
@@ -34,7 +33,7 @@ const LogIn = () => {
                 const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email }
                 axios.post('http://localhost:5000/users', saveUser)
                     .then((data) => {
-                        if (data.data.insertedId) {
+                        if (data.data.message) {
                             navigate(from);
                         }
                     })
