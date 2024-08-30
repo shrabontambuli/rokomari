@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const DashBoardHome = () => {
-    const { user } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
     const [cartData, setCartData] = useState([]);
     console.log(user)
     useEffect(() => {
@@ -13,6 +13,12 @@ const DashBoardHome = () => {
                 setCartData(res.data.slice(0, 3))
             });
     }, [])
+
+    const handleLogOut = () => {
+        logOut()
+            .then()
+            .catch(error => (error))
+    }
 
     return (
         <div className='w-11/12 mx-auto mt-10'>
@@ -26,7 +32,7 @@ const DashBoardHome = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
                     </svg>
                     </button>
-                    <button className='flex justify-center items-center bg-white rounded-full shadow-xl p-1 w-10 h-10'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                    <button onClick={handleLogOut} className='flex justify-center items-center bg-white rounded-full shadow-xl p-1 w-10 h-10'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                     </svg>
                     </button>
@@ -160,14 +166,22 @@ const DashBoardHome = () => {
                     </div>
                 </div>
                 <div>
-                    <div className=' rounded-xl shadow-2xl shadow-rose-500 p-4'>
+                    <div className=' rounded-xl border-t border-x border-rose-400 shadow-2xl shadow-rose-500 p-4 relative'>
+                        <Link to="/edit">
+                            <div className='flex items-center gap-1 absolute right-4 top-3'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                </svg>
+                                Edit
+                            </div>
+                        </Link>
                         <img className='w-28 h-28 rounded-full mx-auto' src={user?.photoURL} alt="" />
                         <div className='mt-3 rounded-xl text-center'>
                             <h1 className='text-xl font-semibold'>Name : {user?.displayName}</h1>
-                            <h2 className='text-sm text-gray-600'>Email : {user?.email}</h2>
-                            <h2 className='text-sm text-gray-600'>Work : Web Developer</h2>
-                            <h2 className='text-sm text-gray-600'>Status : Admin</h2>
-                            <h2 className='text-sm text-gray-600'>Location : Dhaka, Bangladesh</h2>
+                            <h2 className='text-sm text-gray-900'>Email : {user?.email}</h2>
+                            <h2 className='text-sm text-gray-900'>Work : Web Developer</h2>
+                            <h2 className='text-sm text-gray-900'>Status : Admin</h2>
+                            <h2 className='text-sm text-gray-900'>Location : Dhaka, Bangladesh</h2>
                         </div>
                     </div>
                     <div className='bg-white rounded-3xl dashC relative h-[61.5%] mt-6'>

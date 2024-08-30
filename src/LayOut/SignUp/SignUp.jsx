@@ -6,49 +6,59 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
 import axios from "axios";
 
+const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
+
 const SignUp = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser, googleSignIn } = useContext(AuthContext);
-
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
+    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
+
     const onSubmit = data => {
-        createUser(data.email, data.password)
-            .then((result) => {
-                const loggedUser = result.user;
-                navigate(from, { replace: true })
-                console.log(loggedUser);
-                updateProfile(loggedUser, {
-                    displayName: data.name, photoURL: data.photo
-                })
-                const saveUser = { name: data.name, email: data.email }
-                axios.post('http://localhost:5000/users', saveUser)
-                    .then(data => {
-                        if (data.data.insertedId) {
-                            reset();
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'SignUp Success',
-                                showConfirmButton: false,
-                                timer: 1500
+        const formData = new FormData();
+        formData.append('image', data.image[0])
+        axios.post(img_hosting_url, formData)
+            .then(imgResponse => {
+                if (imgResponse.data.success) {
+                    const imgURL = imgResponse.data.display_url;
+                    createUser(data.email, data.password)
+                        .then((result) => {
+                            const loggedUser = result.user;
+                            navigate(from, { replace: true })
+                            updateProfile(loggedUser, {
+                                displayName: data.name, photoURL: imgURL
                             })
-                        }
-                    })
+                            const saveUser = { name: data.name, email: data.email }
+                            axios.post('http://localhost:5000/users', saveUser)
+                                .then(data => {
+                                    if (data.data.insertedId) {
+                                        reset();
+                                        Swal.fire({
+                                            position: 'center',
+                                            icon: 'success',
+                                            title: 'SignUp Success',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
+                                    }
+                                })
 
-            })
-            .catch((error) => {
-                return (error);
+                        })
+                        .catch((error) => {
+                            return (error);
 
+                        })
+                }
             })
+
     }
     const handleGoogle = () => {
         googleSignIn()
             .then(result => {
                 const loggedInUser = result.user;
-                // console.log(loggedInUser);
                 const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email }
                 axios.post('http://localhost:5000/users', saveUser)
                     .then((data) => {
@@ -114,13 +124,16 @@ const SignUp = () => {
                             <label className="label">
                                 <span className="label-text text-white">Photo Url</span>
                             </label>
+
+                            <input type="file" {...register("image", { required: true })} className="file-input file-input-bordered file-input-accent bg-transparent w-full " />
+
                             {/* <input
                                 type="file"
                                 name="photo"
                                 className="file-input file-input-bordered file-input-accent w-full bg-transparent" /> */}
 
-                            <input type="text" {...register("photo", { required: true })} placeholder="photo"
-                                name="photo" className="input input-bordered bg-transparent" />
+                            {/* <input type="text" {...register("photo", { required: true })} placeholder="photo"
+                                name="photo" className="input input-bordered bg-transparent" /> */}
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn btn-accent">SignUp</button>

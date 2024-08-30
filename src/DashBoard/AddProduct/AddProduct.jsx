@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from 'axios';
 
+// const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
+
 const AddProduct = () => {
 
     const [productImg, setProductImg] = useState();
@@ -21,6 +23,20 @@ const AddProduct = () => {
         console.log(pName);
     }
 
+    // const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
+
+    // const handleImg = data => {
+    //     const formData = new FormData();
+    //     console.log(formData);
+    //     formData.append('image', data.image[0])
+    //     axios.post(img_hosting_url, formData)
+    //         .then(imgResponse => {
+    //             setProductImg(imgResponse)
+    //             console.log(imgResponse)
+    //         })
+    // }
+
+
     const onSubmit = data => {
         const addProduct = { name: data.name, by: data.by, category: data.category, price: data.price, stock: data.stock, page: data.page, print: data.print, edition: data.edition, publication: data.publication, product: data.product, picture: data.picture, sale_category: data.sale_category }
 
@@ -34,11 +50,12 @@ const AddProduct = () => {
                         showConfirmButton: true,
                         timer: 1500
                     })
+                    reset();
                 }
             })
     }
     return (
-        <div className="w-full">
+        <div className="w-11/12 mx-auto">
             <div className="hero min-h-screen">
                 <div className="w-full">
                     <div className="font-serif font-semibold text-2xl px-8">
@@ -50,6 +67,12 @@ const AddProduct = () => {
                                 <label className="label">
                                     <span className="label-text text-white">Product Image</span>
                                 </label>
+
+                                {/* <div className='flex items-center gap-4'>
+                                    <input onChange={proImg} placeholder="product image url" type="file" {...register("image", { required: true })} className="file-input file-input-bordered file-input-primary bg-transparent w-full " />
+                                    <button className='btn btn-outline btn-primary' onClick={() => handleImg()}>Ok</button>
+                                </div> */}
+
                                 <input type="text" {...register("picture", { required: true })} onChange={proImg} placeholder="product image url"
                                     className="input input-bordered dashC2" />
                             </div>
@@ -142,6 +165,7 @@ const AddProduct = () => {
                                         className="select select-bordered dashC2 w-full">
                                         <option disabled selected>select one</option>
                                         <option>best_sale</option>
+                                        <option>super_store</option>
                                     </select>
                                 </div>
                                 <div className="form-control w-full">
