@@ -15,7 +15,7 @@ const View_Details = () => {
         const { _id, name, by, category, price, stock, page, print, publication, picture, edition } = d;
         const selectedProduct = { selectId: _id, name, by, category, price, stock, page, print, publication, picture, edition }
 
-        axios.post('http://localhost:5000/selects', selectedProduct)
+        axios.post('https://rokomari-server.vercel.app/selects', selectedProduct)
             .then(data => {
                 if (data?.data?.insertedId) {
                     Swal.fire({

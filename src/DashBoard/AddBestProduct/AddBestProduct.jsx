@@ -6,7 +6,7 @@ import axios from 'axios';
 
 // const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 
-const AddProduct = () => {
+const AddBestProduct = () => {
 
     const [productImg, setProductImg] = useState();
     const [productName, setProductName] = useState("Book name");
@@ -40,7 +40,7 @@ const AddProduct = () => {
     const onSubmit = data => {
         const addProduct = { name: data.name, by: data.by, category: data.category, price: data.price, stock: data.stock, page: data.page, print: data.print, edition: data.edition, publication: data.publication, product: data.product, picture: data.picture, sale_category: data.sale_category }
 
-        axios.post('http://localhost:5000/products', addProduct)
+        axios.post('https://rokomari-server.vercel.app/products', addProduct)
             .then(data => {
                 if (data?.data?.insertedId) {
                     Swal.fire({
@@ -54,6 +54,7 @@ const AddProduct = () => {
                 }
             })
     }
+
     return (
         <div className="w-11/12 mx-auto">
             <div className="hero min-h-screen">
@@ -65,7 +66,7 @@ const AddProduct = () => {
                         <Form onSubmit={handleSubmit(onSubmit)} className="card-body">
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text text-white">Product Image</span>
+                                    <span className="label-text text-white">Book Image</span>
                                 </label>
 
                                 {/* <div className='flex items-center gap-4'>
@@ -74,14 +75,14 @@ const AddProduct = () => {
                                 </div> */}
 
                                 <input type="text" {...register("picture", { required: true })} onChange={proImg} placeholder="product image url"
-                                    className="input input-bordered dashC2" />
+                                    className="input input-bordered" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text text-white">Product Name</span>
+                                    <span className="label-text text-white">Book Name</span>
                                 </label>
                                 <input type="text" {...register("name", { required: true })} onChange={proName} placeholder="product name"
-                                    name="name" className="input input-bordered dashC2" />
+                                    name="name" className="input input-bordered" />
                             </div>
                             <div className='flex justify-between items-center gap-8'>
                                 <div className="form-control w-full">
@@ -89,7 +90,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">By / Brand Name</span>
                                     </label>
                                     <input type="text" {...register("by", { required: true })} placeholder="by / brand name"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.displayName} */}
                                 </div>
                                 <div className="form-control w-full">
@@ -97,7 +98,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">Category</span>
                                     </label>
                                     <input type="text" {...register("category", { required: true })} placeholder="category"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.email} */}
                                 </div>
                             </div>
@@ -107,7 +108,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">Price</span>
                                     </label>
                                     <input type="text" {...register("price", { required: true })} placeholder="price"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.displayName} */}
                                 </div>
                                 <div className="form-control w-full">
@@ -115,7 +116,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">Stock</span>
                                     </label>
                                     <input type="text" {...register("stock", { required: true })} placeholder="stock"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.email} */}
                                 </div>
                             </div>
@@ -125,7 +126,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">Page</span>
                                     </label>
                                     <input type="text" {...register("page", { required: true })} placeholder="page"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.displayName} */}
                                 </div>
                                 <div className="form-control w-full">
@@ -133,7 +134,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">Print</span>
                                     </label>
                                     <input type="text" {...register("print", { required: true })} placeholder="print"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.email} */}
                                 </div>
                             </div>
@@ -143,7 +144,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">Edition</span>
                                     </label>
                                     <input type="text" {...register("edition", { required: true })} placeholder="edition"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.displayName} */}
                                 </div>
                                 <div className="form-control w-full">
@@ -151,7 +152,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">Publication</span>
                                     </label>
                                     <input type="text" {...register("publication", { required: true })} placeholder="publication"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.email} */}
                                 </div>
                             </div>
@@ -162,7 +163,7 @@ const AddProduct = () => {
                                     </label>
                                     <select
                                         {...register("sale_category", { required: true })}
-                                        className="select select-bordered dashC2 w-full">
+                                        className="select select-bordered w-full">
                                         <option disabled selected>select one</option>
                                         <option>best_sale</option>
                                         <option>super_store</option>
@@ -173,7 +174,7 @@ const AddProduct = () => {
                                         <span className="label-text text-white">Product</span>
                                     </label>
                                     <input type="text" {...register("product", { required: true })} placeholder="product"
-                                        className="input input-bordered dashC2" />
+                                        className="input input-bordered" />
                                     {/* defaultValue={user?.email} */}
                                 </div>
                             </div>
@@ -183,7 +184,7 @@ const AddProduct = () => {
                         </Form>
                         <div>
                             <div className='mt-16 rounded-sm border bg-white dashC p-6'>
-                                <img className='w-56 h-80' src={productImg} alt="product image" />
+                                <img className='w-56 h-80' src={productImg} alt="Book image" />
                             </div>
                             <div className='text-center mt-4 py-2 rounded-3xl border bg-white dashC2'>
                                 <h1 className='font-medium text-lg'>{productName}</h1>
@@ -196,4 +197,4 @@ const AddProduct = () => {
     );
 };
 
-export default AddProduct;
+export default AddBestProduct;

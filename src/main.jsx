@@ -14,12 +14,13 @@ import Success from './Payment/Success/Success.jsx';
 import Fail from './Payment/Fail/Fail.jsx';
 import Cancel from './Payment/Cancel/Cancel.jsx';
 import DashBoard from './DashBoard/DashBoard/DashBoard.jsx';
-import AddProduct from './DashBoard/AddProduct/AddProduct.jsx';
 import DashBoardHome from './DashBoard/DashBoardHome/DashBoardHome.jsx';
 import LogIn from './LayOut/LogIn/LogIn.jsx';
 import SignUp from './LayOut/SignUp/SignUp.jsx';
 import AuthProvider from './providers/AuthProvider.jsx';
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute.jsx';
+import AddBestProduct from './DashBoard/AddBestProduct/AddBestProduct.jsx';
+import AddStoreProduct from './DashBoard/AddStoreProduct/AddStoreProduct.jsx';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
       {
         path: "/details/:_id",
         element: <PrivateRoute><View_Details /></PrivateRoute>,
-        loader: ({ params }) => fetch(`http://localhost:5000/products/${params._id}`)
+        loader: ({ params }) => fetch(`https://rokomari-server.vercel.app/products/${params._id}`)
       },
       {
         path: "/addCart",
@@ -71,8 +72,12 @@ const router = createBrowserRouter([
         element: <DashBoardHome />,
       },
       {
-        path: "addProduct",
-        element: <AddProduct />,
+        path: "addBestProduct",
+        element: <AddBestProduct />,
+      },
+      {
+        path: "addStoreProduct",
+        element: <AddStoreProduct />,
       },
 
     ]

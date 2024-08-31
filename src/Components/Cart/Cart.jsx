@@ -16,7 +16,7 @@ const Cart = () => {
     // data fetching //
 
     useEffect(() => {
-        axios.get('http://localhost:5000/selects')
+        axios.get('https://rokomari-server.vercel.app/selects')
             .then(res => {
                 setCartData(res.data)
             });
@@ -36,7 +36,7 @@ const Cart = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:5000/selects/${item._id}`)
+                axios.delete(`https://rokomari-server.vercel.app/selects/${item._id}`)
                     .then(data => {
                         if (data?.data?.deletedCount > 0) {
                             Swal.fire(
@@ -45,7 +45,7 @@ const Cart = () => {
                                 'success'
                             )
                         }
-                        axios.get('http://localhost:5000/selects')
+                        axios.get('https://rokomari-server.vercel.app/selects')
                             .then(res => {
                                 setCartData(res.data)
                             });
@@ -75,7 +75,7 @@ const Cart = () => {
 
     const handlePayment = () => {
 
-        axios.post("http://localhost:5000/create-payment", {
+        axios.post("https://rokomari-server.vercel.app/create-payment", {
             amount: 500,
             currency: "USD"
         })

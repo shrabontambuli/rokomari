@@ -19,11 +19,11 @@ const LogIn = () => {
         signIn(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                navigate(from, { replace: true })
-                console.log(user);
+                if (user) {
+                    navigate(from, { replace: true })
+                }
             })
             .catch(err => console.log(err))
-        console.log(data);
     }
 
     const handleGoogle = () => {
@@ -31,7 +31,7 @@ const LogIn = () => {
             .then(result => {
                 const loggedInUser = result.user;
                 const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email }
-                axios.post('http://localhost:5000/users', saveUser)
+                axios.post('https://rokomari-server.vercel.app/users', saveUser)
                     .then((data) => {
                         if (data.data.message) {
                             navigate(from);
@@ -65,7 +65,7 @@ const LogIn = () => {
                                 maxLength: 20,
                                 pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/
                             })} placeholder="password"
-                                name="password" className="input input-bordered bg-transparent" />
+                                name="password" className="input input-bordered bg-transparent relative" />
                             <span
                                 className="absolute top-2/4 right-3 transform -translate-y-1/2 cursor-pointer"
                                 onClick={() => setShowPassword(!showPassword)}
@@ -79,8 +79,8 @@ const LogIn = () => {
                                     </svg>
                                 }
                             </span>
-                            {errors.password?.type === 'minLength' && <p className="text-red-600">Password must be 6 characters</p>}
-                            {errors.password?.type === 'pattern' && <p className="text-red-600">Password must have one Uppercase and one special character </p>}
+                            {errors.password?.type === 'minLength' && <p className="text-red-600 mt-2">Password must be 6 characters</p>}
+                            {errors.password?.type === 'pattern' && <p className="text-red-600 mt-2">Password must have one Uppercase and one special character </p>}
                             <label className="label">
                                 <a href="#" className="label-text-alt link link-hover text-white mt-2">Forgot password?</a>
                             </label>

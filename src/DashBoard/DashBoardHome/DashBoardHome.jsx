@@ -8,7 +8,7 @@ const DashBoardHome = () => {
     const [cartData, setCartData] = useState([]);
     console.log(user)
     useEffect(() => {
-        axios.get('http://localhost:5000/selects')
+        axios.get('https://rokomari-server.vercel.app/selects')
             .then(res => {
                 setCartData(res.data.slice(0, 3))
             });

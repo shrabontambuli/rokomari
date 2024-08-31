@@ -32,7 +32,7 @@ const SignUp = () => {
                                 displayName: data.name, photoURL: imgURL
                             })
                             const saveUser = { name: data.name, email: data.email }
-                            axios.post('http://localhost:5000/users', saveUser)
+                            axios.post('https://rokomari-server.vercel.app/users', saveUser)
                                 .then(data => {
                                     if (data.data.insertedId) {
                                         reset();
@@ -60,7 +60,7 @@ const SignUp = () => {
             .then(result => {
                 const loggedInUser = result.user;
                 const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email }
-                axios.post('http://localhost:5000/users', saveUser)
+                axios.post('https://rokomari-server.vercel.app/users', saveUser)
                     .then((data) => {
                         if (data.data.insertedId) {
                             navigate(from);

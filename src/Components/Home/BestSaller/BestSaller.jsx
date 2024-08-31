@@ -13,7 +13,7 @@ const BestSaller = () => {
     const [bestData, setBestData] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/products')
+        axios.get('https://rokomari-server.vercel.app/products')
             .then(res => {
                 setBestData(res.data);
             });

@@ -8,7 +8,7 @@ const Navber = () => {
     const [tabs, setTAbs] = useState(1);
     const [cartData, setCartData] = useState([]);
 
-    const url = ('http://localhost:5000/selects')
+    const url = ('https://rokomari-server.vercel.app/selects')
     useEffect(() => {
         fetch(url)
             .then(res => res.json())
