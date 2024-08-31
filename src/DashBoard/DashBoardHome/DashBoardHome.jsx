@@ -5,12 +5,14 @@ import { AuthContext } from '../../providers/AuthProvider';
 
 const DashBoardHome = () => {
     const { user, logOut } = useContext(AuthContext);
-    const [cartData, setCartData] = useState([]);
-    console.log(user)
+    const [bestData, setBestData] = useState([]);
+    const remaining = bestData.filter(data => data.status === "pending");
+    const remainingData = remaining.slice(0, 3);
+    
     useEffect(() => {
-        axios.get('https://rokomari-server.vercel.app/selects')
+        axios.get('https://rokomari-server.vercel.app/products')
             .then(res => {
-                setCartData(res.data.slice(0, 3))
+                setBestData(res.data);
             });
     }, [])
 
@@ -49,7 +51,7 @@ const DashBoardHome = () => {
                                         <tbody>
                                             {/* row 1 */}
                                             {
-                                                cartData?.map(d =>
+                                                remainingData?.map(d =>
                                                     <tr key={d?._id} className="border-b border-[#d8d9dd]">
                                                         <td>
                                                             <div className="card card-side rounded-none gap-3">

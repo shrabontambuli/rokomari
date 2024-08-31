@@ -19,9 +19,11 @@ const SignUp = () => {
 
     const onSubmit = data => {
         const formData = new FormData();
+        console.log(formData);
         formData.append('image', data.image[0])
         axios.post(img_hosting_url, formData)
             .then(imgResponse => {
+                console.log(imgResponse.data);
                 if (imgResponse.data.success) {
                     const imgURL = imgResponse.data.display_url;
                     createUser(data.email, data.password)
@@ -31,6 +33,7 @@ const SignUp = () => {
                             updateProfile(loggedUser, {
                                 displayName: data.name, photoURL: imgURL
                             })
+                            console.log(data)
                             const saveUser = { name: data.name, email: data.email }
                             axios.post('https://rokomari-server.vercel.app/users', saveUser)
                                 .then(data => {

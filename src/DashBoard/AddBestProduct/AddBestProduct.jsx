@@ -38,7 +38,7 @@ const AddBestProduct = () => {
 
 
     const onSubmit = data => {
-        const addProduct = { name: data.name, by: data.by, category: data.category, price: data.price, stock: data.stock, page: data.page, print: data.print, edition: data.edition, publication: data.publication, product: data.product, picture: data.picture, sale_category: data.sale_category }
+        const addProduct = { name: data.name, by: data.by, category: data.category, price: data.price, stock: data.stock, page: data.page, print: data.print, edition: data.edition, publication: data.publication, product: data.product, picture: data.picture, sale_category: data.sale_category, status: data.status}
 
         axios.post('https://rokomari-server.vercel.app/products', addProduct)
             .then(data => {
@@ -171,6 +171,16 @@ const AddBestProduct = () => {
                                 </div>
                                 <div className="form-control w-full">
                                     <label className="label">
+                                        <span className="label-text text-white">Status</span>
+                                    </label>
+                                    <select
+                                        {...register("status", { required: true })}
+                                        className="select select-bordered w-full">
+                                        <option selected>pending</option>
+                                    </select>
+                                </div>
+                                <div className="form-control w-full">
+                                    <label className="label">
                                         <span className="label-text text-white">Product</span>
                                     </label>
                                     <input type="text" {...register("product", { required: true })} placeholder="product"
@@ -178,7 +188,7 @@ const AddBestProduct = () => {
                                     {/* defaultValue={user?.email} */}
                                 </div>
                             </div>
-                            <div className="form-control mt-6">
+                            <div className="form-control mt-10">
                                 <button className="btn btn-outline bg-[#4d19bd] hover:bg-[#4d19bd]  text-white w-full">Add New Book</button>
                             </div>
                         </Form>
@@ -187,7 +197,7 @@ const AddBestProduct = () => {
                                 <img className='w-56 h-80' src={productImg} alt="Book image" />
                             </div>
                             <div className='text-center mt-4 py-2 rounded-3xl border bg-white dashC2'>
-                                <h1 className='font-medium text-lg'>{productName}</h1>
+                                <h1 className='font-medium text-lg w-64 p-2 text-balance'>{productName}</h1>
                             </div>
                         </div>
                     </div>

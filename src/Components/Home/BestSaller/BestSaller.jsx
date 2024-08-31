@@ -11,6 +11,7 @@ import axios from 'axios';
 
 const BestSaller = () => {
     const [bestData, setBestData] = useState([]);
+    const remainingData = bestData.filter(data => data.status ==="approve");
 
     useEffect(() => {
         axios.get('https://rokomari-server.vercel.app/products')
@@ -34,7 +35,7 @@ const BestSaller = () => {
                     navigation={true} modules={[Navigation]}
                 >
                     {
-                        bestData?.map(d =>
+                        remainingData?.map(d =>
                             <SwiperSlide key={d._id}>
                                 <Link to={`/details/${d._id}`}>
                                     <div className="card card1 card-body p-0 bg-white h-52 border rounded-sm shadow">
