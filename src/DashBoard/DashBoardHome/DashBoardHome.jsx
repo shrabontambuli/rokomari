@@ -5,22 +5,44 @@ import { AuthContext } from '../../providers/AuthProvider';
 
 const DashBoardHome = () => {
     const { user, logOut } = useContext(AuthContext);
-    const [bestData, setBestData] = useState([]);
-    const remaining = bestData.filter(data => data.status === "pending");
+    // const [bestData, setBestData] = useState([]);
+    const [usersData, setUsersData] = useState([]);
+    const [purchaseData, setPurchaseData] = useState([]);
+    const [upData, setUpData] = useState([]);
+
+    const remainingPur = purchaseData.filter(data => data.status === "Success");
+    const remainingAll = upData.filter(data => data.status === "approve");
+    const remaining = upData.filter(data => data.status === "pending");
+    const remainingAllData = remainingAll.slice(0, 3);
     const remainingData = remaining.slice(0, 3);
-    
+    const remainingUsers = usersData.slice(0, 3);
+
+    useEffect(() => {
+        axios.get('https://rokomari-server.vercel.app/users')
+            .then(res => {
+                setUsersData(res.data);
+            });
+    }, []);
+
     useEffect(() => {
         axios.get('https://rokomari-server.vercel.app/products')
             .then(res => {
-                setBestData(res.data);
+                setUpData(res.data);
             });
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        axios.get('https://rokomari-server.vercel.app/payments')
+            .then(res => {
+                setPurchaseData(res.data);
+            });
+    }, []);
 
     const handleLogOut = () => {
         logOut()
             .then()
             .catch(error => (error))
-    }
+    };
 
     return (
         <div className='w-11/12 mx-auto mt-10'>
@@ -43,43 +65,44 @@ const DashBoardHome = () => {
             <div className='grid grid-cols-4 gap-6 mt-10'>
                 <div className='col-span-3'>
                     <div className='grid grid-cols-3 gap-6'>
-                        <div className='col-span-2 bg-white shadow-xl rounded-xl p-4'>
-                            <h1 className='text-2xl font-serif'>Upcoming Products :---</h1>
-                            <div className="mt-3">
-                                <div className="overflow-x-auto mt-4">
-                                    <table className="table">
-                                        <tbody>
-                                            {/* row 1 */}
-                                            {
-                                                remainingData?.map(d =>
-                                                    <tr key={d?._id} className="border-b border-[#d8d9dd]">
-                                                        <td>
-                                                            <div className="card card-side rounded-none gap-3">
-                                                                <figure>
-                                                                    <img
-                                                                        className="w-14 h-20"
-                                                                        src={d?.picture}
-                                                                        alt="Movie" />
-                                                                </figure>
-                                                                <div>
-                                                                    <h2 className="text-base w-72">{d?.name}</h2>
-                                                                    <h2 className="text-sm mt-2">{d?.by}</h2>
-                                                                    <img className="mt-4 w-4 h-4" src="/icon/icon_trash.png" alt="" />
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="text-xl font-medium">{d?.price} Tk.</td>
-                                                    </tr>
-                                                )
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div className='flex justify-center mt-3'>
-                                <Link to='/allProduct'>
+                        <div className='col-span-2 bg-white shadow-xl rounded-xl p-4 h-[454px] overflow-hidden'>
+                            <div className='flex justify-between items-center'>
+                                <h1 className='text-2xl font-serif'>Upcoming Products :--- ({remaining?.length})</h1>
+                                <Link to='/manageProduct'>
                                     <h1 className='border-2 py-1 px-6 rounded-md'>SEE MORE</h1>
                                 </Link>
+                            </div>
+                            <div className="overflow-x-auto mt-10">
+                                <table className="table">
+                                    <tbody>
+                                        {/* row 1 */}
+                                        {
+                                            remainingData?.map(d =>
+                                                <tr key={d?._id} className="border-b border-[#d8d9dd]">
+                                                    <td>
+                                                        <div className="card card-side rounded-none gap-3">
+                                                            <figure>
+                                                                <img
+                                                                    className="w-14 h-20"
+                                                                    src={d?.picture}
+                                                                    alt="Movie" />
+                                                            </figure>
+                                                            <div>
+                                                                <h2 className="text-base w-96">{d?.name}</h2>
+                                                                <h2 className="text-sm mt-2">{d?.by}</h2>
+                                                                {
+                                                                    user ? <img className="disabled mt-4 w-4 h-4" src="/icon/icon_trash.png" alt="" /> :
+                                                                        <img className="mt-4 w-4 h-4" src="/icon/icon_trash.png" alt="" />
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="text-xl font-medium">{d?.price} Tk.</td>
+                                                </tr>
+                                            )
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div>
@@ -98,26 +121,42 @@ const DashBoardHome = () => {
                                     </svg>
                                 </div>
                                 <div className="stat-title text-lg text-black font-medium">Total Sales Product</div>
-                                <div className="stat-value text-primary">25.6K</div>
+                                <div className="stat-value text-primary">{remainingPur?.length}.3 K</div>
                                 <div className="stat-desc text-lg text-black font-medium">Our Achievement</div>
                             </div>
-                            <div className="stat bg-white shadow-xl rounded-xl mt-6">
+                            <div className="stat bg-white shadow-xl rounded-xl mt-6 h-[300px]">
                                 <div className='flex justify-between items-center'>
                                     <h1 className='text-2xl font-serif'>Members :---</h1>
-                                    <Link to='/allMember'>
+                                    <Link to='/users'>
                                         <h1 className='border-2 py-1 px-6 rounded-md'>SEE MORE</h1>
                                     </Link>
                                 </div>
-                                <div className=" mt-6">
-                                    <div className="alert alert-info mt-3">
-                                        <span>New mail arrived.</span>
-                                    </div>
-                                    <div className="alert alert-success mt-3">
-                                        <span>Message sent successfully.</span>
-                                    </div>
-                                    <div className="alert alert-success mt-3">
-                                        <span>Message sent successfully.</span>
-                                    </div>
+                                <div className="overflow-x-hidden mt-10">
+                                    <table className="table">
+                                        <tbody>
+                                            {/* row 1 */}
+                                            {
+                                                remainingUsers?.map(d =>
+                                                    <tr key={d?._id} className="border-b border-[#d8d9dd]">
+                                                        <td>
+                                                            <div className="card card-side rounded-none gap-3">
+                                                                <figure>
+                                                                    <img
+                                                                        className="w-9 h-9 rounded-full"
+                                                                        src={d?.picture}
+                                                                        alt="Movie" />
+                                                                </figure>
+                                                                <div>
+                                                                    <h2 className="text-base w-96">{d?.name}</h2>
+                                                                    <h2 className="text-sm mt-2">{d?.by}</h2>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -136,32 +175,19 @@ const DashBoardHome = () => {
                                     <tr>
                                         <th></th>
                                         <th>Name</th>
-                                        <th>Job</th>
-                                        <th>Favorite Color</th>
+                                        <th>Writer</th>
+                                        <th>Publication</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* row 1 */}
-                                    <tr>
-                                        <th>1</th>
-                                        <td>Cy Ganderton</td>
-                                        <td>Quality Control Specialist</td>
-                                        <td>Blue</td>
-                                    </tr>
-                                    {/* row 2 */}
-                                    <tr>
-                                        <th>2</th>
-                                        <td>Hart Hagerty</td>
-                                        <td>Desktop Support Technician</td>
-                                        <td>Purple</td>
-                                    </tr>
-                                    {/* row 3 */}
-                                    <tr>
-                                        <th>3</th>
-                                        <td>Brice Swyre</td>
-                                        <td>Tax Accountant</td>
-                                        <td>Red</td>
-                                    </tr>
+                                    {remainingAllData?.map((d, index) =>
+                                        <tr key={d?._id} >
+                                            <th>{index + 1}</th>
+                                            <td>{d?.name}</td>
+                                            <td>{d?.by}</td>
+                                            <td>{d?.publication}</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
