@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
 
     if (loading) {
         return <div className="flex justify-center items-center h-screen">
-            <CirclesWithBar
+            {/* <CirclesWithBar
                 height="100"
                 width="100"
                 color="#1E90FF"
@@ -21,7 +21,8 @@ const PrivateRoute = ({ children }) => {
                 wrapperStyle={{}}
                 wrapperClass=""
                 visible={true}
-            />
+            /> */}
+            <img src="/images/male.png" alt="" />
         </div>
     }
 

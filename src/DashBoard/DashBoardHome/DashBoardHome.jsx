@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import { Form, Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const DashBoardHome = () => {
@@ -9,6 +9,7 @@ const DashBoardHome = () => {
     const [usersData, setUsersData] = useState([]);
     const [purchaseData, setPurchaseData] = useState([]);
     const [upData, setUpData] = useState([]);
+    const [smsData, setSmsData] = useState([]);
 
     const remainingPur = purchaseData.filter(data => data.status === "Success");
     const remainingAll = upData.filter(data => data.status === "approve");
@@ -38,11 +39,63 @@ const DashBoardHome = () => {
             });
     }, []);
 
+    useEffect(() => {
+        fetch('https://rokomari-server.vercel.app/sms')
+            .then(res => res.json())
+            .then((data) => setSmsData(data))
+    }, [smsData]);
+
     const handleLogOut = () => {
         logOut()
             .then()
             .catch(error => (error))
     };
+
+    const handleSubmitSms = event => {
+        event.preventDefault();
+        const form = event.target;
+        const smsData = form?.sms?.value;
+        const reset = form.reset();
+
+        const addSms = {
+            smsText: smsData,
+            senderName: user?.displayName,
+            senderEmail: user?.email,
+            senderPhoto: user?.photoURL,
+            status: "user"
+        }
+
+        axios.post('https://rokomari-server.vercel.app/sms', addSms)
+            .then(data => {
+                if (data?.data?.insertedId) {
+                    reset;
+                }
+            })
+    }
+
+    // sms //
+
+    const [messages, setMessages] = useState([]);
+    const [input, setInput] = useState('');
+    const chatBoxRef = useRef(null);
+
+    const handleSendMessage = () => {
+        if (input.trim()) {
+            setMessages([...messages, { text: input, sender: 'user' }]);
+            setInput('');
+            setTimeout(() => {
+                setMessages((prevMessages) => [
+                    ...prevMessages,
+                    { text: 'Bot response to: ' + input, sender: 'bot' },
+                ]);
+            }, 1000);
+        }
+    };
+
+    // Scroll to the bottom when a new message is added
+    useEffect(() => {
+        chatBoxRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
     return (
         <div className='w-11/12 mx-auto mt-10'>
@@ -193,7 +246,7 @@ const DashBoardHome = () => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className='h-[745px]'>
                     <div className=' rounded-xl border-t border-x border-rose-400 shadow-2xl shadow-rose-500 p-4 relative'>
                         <Link to="/edit">
                             <div className='flex items-center gap-1 absolute right-4 top-3'>
@@ -212,37 +265,94 @@ const DashBoardHome = () => {
                             <h2 className='text-sm text-gray-900'>Location : Dhaka, Bangladesh</h2>
                         </div>
                     </div>
-                    <div className='bg-white rounded-3xl dashC relative h-[61.5%] mt-6'>
-                        <div className='bg-blue-500 rounded-t-3xl h-9 pt-1'>
+
+                    <div className='rounded-t-3xl mt-6'>
+                        <div className='bg-blue-500 rounded-t-3xl h-9 pt-1 z-10'>
                             <h1 className='text-center text-white text-lg'>Chat with all members</h1>
                         </div>
 
-
-                        <div className='p-4'>
-                            <h1>Massage..........!!!!!!!!</h1>
-                        </div>
-
-
-
-                        <div className='bg-blue-500 rounded-b-3xl h-20 absolute w-full bottom-0'>
-                            <div className='w-full h-full flex justify-center items-center'>
-                                <div className="join px-2">
-                                    <input
-                                        type="text"
-                                        placeholder="message........."
-                                        className="input input-bordered w-[100%] join-item" />
-                                    <button className="btn btn-primary border-none join-item">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                                        </svg>
-                                    </button>
-                                </div>
+                        {/* <div className='absolute bottom-96 h-[40%]'>
+                            <div className='py-4 px-6'>
+                                {
+                                    smsData?.map(data => <div className='mt-2'>
+                                        <h1 className='ms-4 text-xs'>{data?.senderName}</h1>
+                                        <div className='flex items-center gap-2 w-72 mx-auto'>
+                                            <img className='w-8 h-8 rounded-full' src={data?.senderPhoto} alt="" />
+                                            <h1 className='bg-blue-500 mt-3 py-2 px-3 rounded-lg'>{data?.smsText}</h1>
+                                        </div>
+                                    </div>)
+                                }
+                            </div>
+                        </div> */}
+                        
+                        <div className="flex flex-col h-[420px] rounded-b-3xl bg-gray-100 p-6">
+                            <div className="flex-grow bg-white rounded-lg shadow-lg p-4 overflow-y-auto space-y-4">
+                                {messages.map((message, index) => (
+                                    <div
+                                        key={index}
+                                        className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'
+                                            }`}
+                                    >
+                                        <div
+                                            className={`max-w-xs p-2 rounded-lg text-white ${message.sender === 'user'
+                                                ? 'bg-blue-500'
+                                                : 'bg-gray-400'
+                                                }`}
+                                        >
+                                            {message.text}
+                                        </div>
+                                    </div>
+                                ))}
+                                <div ref={chatBoxRef}></div>
+                            </div>
+                            <div className="mt-4 flex">
+                                <input
+                                    type="text"
+                                    className="flex-grow border border-gray-300 rounded-lg p-2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    placeholder="Type a message..."
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                                />
+                                <button
+                                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    onClick={handleSendMessage}
+                                >
+                                    Send
+                                </button>
                             </div>
                         </div>
+
+
+
+                        {/* <div className='bg-blue-500 rounded-b-3xl h-20 absolute w-full -bottom-16'>
+                            <div className='w-full h-full flex justify-center items-center gap-3'>
+                                <button onClick={() => document.getElementById('my_modal_1').showModal()}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                                </button>
+
+                                <Form onSubmit={handleSubmitSms}>
+                                    <div className="join px-2">
+                                        <input
+                                            type="text"
+                                            name='sms'
+                                            required
+                                            placeholder="message........."
+                                            className="input input-bordered w-[100%] join-item" />
+                                        <button className="btn btn-primary border-none join-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </Form>
+                            </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

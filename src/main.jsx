@@ -21,6 +21,7 @@ import AuthProvider from './providers/AuthProvider.jsx';
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute.jsx';
 import AddBestProduct from './DashBoard/AddBestProduct/AddBestProduct.jsx';
 import AddStoreProduct from './DashBoard/AddStoreProduct/AddStoreProduct.jsx';
+import Demo from './Components/Demo/Demo.jsx';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/addCart",
         element: <Cart />,
+      },
+      {
+        path: "/demo",
+        element: <Demo/>,
       },
     ],
   },
